@@ -1,0 +1,42 @@
+{
+  "conversation_id": "conv_6201m7n66et4e179tsjg8m1r4sjq",
+  "end_reason": "script finished",
+  "transcript": [
+    {
+      "role": "agent",
+      "text": "Hi, this is Cimo, an AI assistant for Harbour Dental Clinic. This call is recorded and transcribed so the team can follow up. How can I help today?",
+      "at": 1.3289374583400786
+    },
+    {
+      "role": "user",
+      "text": "...",
+      "at": 17.816216583363712
+    },
+    {
+      "role": "agent",
+      "text": "Hello, are you there? I'm here whenever you're ready. How can I help you today?",
+      "at": 18.33944616606459
+    },
+    {
+      "role": "user",
+      "text": "Anna Silver, 07700-900-123.",
+      "at": 27.635929374955595
+    },
+    {
+      "role": "agent",
+      "text": "Thanks, Anna. I have your name and number. What can I help you with today? Are you looking to book an appointment?",
+      "at": 28.5576190832071
+    },
+    {
+      "role": "user",
+      "text": "Yes, please book it.",
+      "at": 33.91425141599029
+    },
+    {
+      "role": "agent",
+      "text": "Happy to help with that, Anna. What would you like to book? For example, a check-up, a hygienist clean, or a whitening consultation.",
+      "at": 34.520444041118026
+    }
+  ],
+  "tool_events": []
+}

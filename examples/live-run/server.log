@@ -1,0 +1,14 @@
+INFO:     Started server process [60371]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     <test machine>:0 - "GET /health HTTP/1.1" 200 OK
+2026-11-17 20:41:51,935 WARNING voiceagent rejected a tool call with a missing or wrong X-Agent-Tool-Secret
+INFO:     <test machine>:0 - "POST /tools/handover HTTP/1.1" 401 Unauthorized
+INFO:     34.59.11.47:0 - "POST /webhooks/elevenlabs HTTP/1.1" 200 OK
+2026-11-17 20:43:48,291 INFO voiceagent tool check_availability answered (229 characters)
+INFO:     34.59.11.47:0 - "POST /tools/check_availability HTTP/1.1" 200 OK
+INFO:     34.59.11.47:0 - "POST /webhooks/elevenlabs HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [60371]

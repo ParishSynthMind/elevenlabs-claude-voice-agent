@@ -1,0 +1,62 @@
+{
+  "conversation_id": "conv_3301m7n68qknej7vxt0xdrdx5jrc",
+  "end_reason": "hit the 55 s test cap",
+  "transcript": [
+    {
+      "role": "agent",
+      "text": "Hi, this is Cimo, an AI assistant for Harbour Dental Clinic. This call is recorded and transcribed so the team can follow up. How can I help today?",
+      "at": 1.0894075413234532
+    },
+    {
+      "role": "user",
+      "text": "Hi. Do you have parking for patients, and can I book the earliest checkup tomorrow?",
+      "at": 18.12219079118222
+    },
+    {
+      "role": "agent",
+      "text": "Yes, we have free parking for patients behind the building, with disabled spaces by the entrance. One moment, let me check that.",
+      "at": 18.89550600014627
+    },
+    {
+      "role": "agent",
+      "text": "The earliest slot tomorrow is nine in the morning. Are you a new patient or have you visited us before?",
+      "at": 20.44357870798558
+    },
+    {
+      "role": "user",
+      "text": "Anna Silva, 07700 900123.",
+      "at": 39.60275370813906
+    },
+    {
+      "role": "agent",
+      "text": "Thanks, Anna. Have you visited us before, or would this be your first time as a new patient?",
+      "at": 40.138154541142285
+    },
+    {
+      "role": "user",
+      "text": "Yes. Please book it.",
+      "at": 50.15027229115367
+    },
+    {
+      "role": "agent",
+      "text": "Just so I get the right appointment, is this your first visit with us, or have you been here before?",
+      "at": 50.753121125046164
+    }
+  ],
+  "tool_events": [
+    {
+      "type": "agent_tool_response",
+      "at": 19.13,
+      "agent_tool_response": {
+        "tool_name": "check_availability",
+        "tool_call_id": "toolu_vrtx_01BL7pYkrXJ8QTv6VTHkE3DG",
+        "tool_type": "webhook",
+        "is_error": false,
+        "is_blocked": false,
+        "event_id": 97,
+        "is_called": true,
+        "status": "success"
+      }
+    }
+  ]
+}
