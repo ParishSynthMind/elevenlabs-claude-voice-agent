@@ -1,6 +1,6 @@
 # Portfolio listing: ElevenLabs Claude Voice Agent
 
-Status: POSTING 18 Nov 2026. Parish 18 Nov: no further paid ElevenLabs calls; the README says booking/handover were tested by simulation; post on all four.
+Status: POSTED 18 Nov 2026 on Upwork (NEW project), PeoplePerHour (tile 8199059), LinkedIn (Featured + skills ElevenLabs, Conversational AI) and GitHub. Record: portfolio-builds-2026-11/POSTING-LOG-23.md. Parish 18 Nov: no further paid ElevenLabs calls; the README says booking/handover were tested by simulation; post on all four.
 
 ## Upwork (portfolio project, NEW)
 **Title:** ElevenLabs voice agent with Claude: books slots, captures leads
