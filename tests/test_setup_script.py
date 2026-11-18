@@ -93,3 +93,29 @@ def test_create_resumes_after_a_failure(setup):
     after = len([r for r in fake.requests if r.url.path == "/v1/convai/tools"])
     assert after == before  # nothing created twice
     assert json.loads((tmp / "elevenlabs-state.json").read_text())["agent_id"] == "agent_1"
+
+
+def test_rotate_secret_updates_elevenlabs_and_never_prints_it(setup, capsys):
+    mod, fake, stored, tmp = setup
+    mod.main(["create", "--server-url", "https://x.example.com"])
+    old = stored["agent-tool-secret"]
+    secret_id = json.loads((tmp / "elevenlabs-state.json").read_text())["secret_id"]
+    capsys.readouterr()
+    assert mod.main(["update", "--rotate-secret"]) == 0
+    body = [json.loads(r.content) for r in fake.requests
+            if r.method == "PATCH" and r.url.path == f"/v1/convai/secrets/{secret_id}"][-1]
+    assert body["type"] == "update" and body["value"] != old and len(body["value"]) >= 32
+    assert body["value"] not in capsys.readouterr().out
+
+
+def test_rotate_secret_without_keychain_needs_a_value(setup, monkeypatch):
+    mod, fake, _, _ = setup
+    mod.main(["create", "--server-url", "https://x.example.com"])
+    monkeypatch.setattr(mod.secrets_store, "put", lambda *a, **k: False)
+    with pytest.raises(SystemExit):
+        mod.main(["update", "--rotate-secret"])
+    assert not [r for r in fake.requests if r.method == "PATCH" and "/secrets/" in r.url.path]
+    monkeypatch.setenv("NEW_AGENT_TOOL_SECRET", "operator-chosen-value-0123456789abcdef")
+    assert mod.main(["update", "--rotate-secret"]) == 0
+    body = [json.loads(r.content) for r in fake.requests if r.method == "PATCH" and "/secrets/" in r.url.path][-1]
+    assert body["value"] == "operator-chosen-value-0123456789abcdef"

@@ -8,7 +8,7 @@ Three layers, so one missing layer never means an open tap:
    Once today's total reaches `daily_credit_budget`, the guard trips: tools stop booking and
    capturing (the agent offers to take a message) and an alert goes out once.
 3. `paused` (PAUSED=1, or POST /guard/pause) is the kill switch for everything the agent can do.
-   scripts/setup_agent.py --pause also sets the agent's daily call limit to its lowest value so
+   `scripts/setup_agent.py pause` also sets the agent's daily call limit and concurrency to 0 (accepted and read back live, 18 Nov 2026) so
    ElevenLabs stops taking new calls.
 """
 from __future__ import annotations

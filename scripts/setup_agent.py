@@ -3,6 +3,7 @@
 
   python scripts/setup_agent.py create --server-url https://your-server.example.com [--dry-run]
   python scripts/setup_agent.py update --server-url https://new-url.example.com
+  python scripts/setup_agent.py update --rotate-secret   # new tool secret on ElevenLabs + Keychain
   python scripts/setup_agent.py pause      # kill switch on ElevenLabs' side (no new calls)
   python scripts/setup_agent.py resume
   python scripts/setup_agent.py status
@@ -18,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import secrets
 import sys
 from pathlib import Path
@@ -103,7 +105,7 @@ def create(args, settings: Settings) -> int:
     print(f"Created agent {state['agent_id']} with {len(state['tool_ids'])} tools.")
     print("Tool secret stored in the Keychain (agent-tool-secret)." if stored else
           "Set AGENT_TOOL_SECRET on your server: it was generated now and is not shown; re-run on macOS or "
-          "rotate it with update --rotate-secret.")
+          "rotate it with update --rotate-secret (see its help).")
     if hook:
         print("Webhook secret stored in the Keychain (elevenlabs-webhook-secret)." if hook.get("webhook_secret")
               else "ElevenLabs returned no webhook secret: copy it from Developers > Webhooks.")
@@ -116,6 +118,15 @@ def update(args, settings: Settings) -> int:
         sys.exit("Nothing created yet.")
     c = client_from_env(args.keychain)
     url = args.server_url or state["server_url"]
+    if getattr(args, "rotate_secret", False):
+        # Off macOS there is no Keychain: the operator puts the new value in their own secret store first and
+        # passes it as NEW_AGENT_TOOL_SECRET. It is never printed.
+        tool_secret = os.environ.get("NEW_AGENT_TOOL_SECRET") or secrets.token_urlsafe(32)
+        if not os.environ.get("NEW_AGENT_TOOL_SECRET") and not secrets_store.put("agent-tool-secret", tool_secret):
+            sys.exit("No Keychain here: set NEW_AGENT_TOOL_SECRET (and AGENT_TOOL_SECRET on the server) to a new "
+                     "random value, then run update --rotate-secret again.")
+        c.update_secret(state["secret_id"], "voice-agent-tool-secret", tool_secret)
+        print("Tool secret rotated on ElevenLabs. Restart the server so it loads the new AGENT_TOOL_SECRET.")
     for name, tid in state["tool_ids"].items():
         c.update_tool(tid, agent_spec.tool_config(name, url, state["secret_id"]))
     body = agent_spec.agent_body(settings, list(state["tool_ids"].values()), state.get("kb"), state.get("dictionary"),
@@ -137,7 +148,7 @@ def pause(args, settings: Settings) -> int:
 
 
 def resume(args, settings: Settings) -> int:
-    return update(argparse.Namespace(keychain=args.keychain, server_url=None), settings)
+    return update(argparse.Namespace(keychain=args.keychain, server_url=None, rotate_secret=False), settings)
 
 
 def status(args, settings: Settings) -> int:
@@ -185,6 +196,7 @@ def main(argv=None) -> int:
     ap.add_argument("command", choices=["create", "update", "pause", "resume", "status", "delete"])
     ap.add_argument("--server-url")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--rotate-secret", action="store_true", help="update: new tool secret on ElevenLabs and here")
     ap.add_argument("--keychain", default="elevenlabs-api-key", help="Keychain service holding the API key")
     args = ap.parse_args(argv)
     settings = Settings.from_env()

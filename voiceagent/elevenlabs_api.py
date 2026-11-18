@@ -84,6 +84,9 @@ class ElevenLabsClient:
     def create_secret(self, name: str, value: str) -> str:
         return self._request("POST", "/v1/convai/secrets", json={"type": "new", "name": name, "value": value})["secret_id"]
 
+    def update_secret(self, secret_id: str, name: str, value: str) -> None:
+        self._request("PATCH", f"/v1/convai/secrets/{secret_id}", json={"type": "update", "name": name, "value": value})
+
     def delete_secret(self, secret_id: str) -> None:
         self._request("DELETE", f"/v1/convai/secrets/{secret_id}")
 
