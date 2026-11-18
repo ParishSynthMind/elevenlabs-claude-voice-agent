@@ -1,0 +1,227 @@
+{
+  "run": "offline, faked clock 2026-11-17T09:00:00+00:00",
+  "steps": [
+    {
+      "step": "tool check_availability (no secret)",
+      "arguments": {
+        "date": "2026-11-18"
+      },
+      "http": 401,
+      "answer": {
+        "detail": "Unauthorized"
+      }
+    },
+    {
+      "step": "tool check_availability",
+      "arguments": {
+        "date": "2026-11-18"
+      },
+      "http": 200,
+      "answer": "Today is Tuesday 17 November 2026. Free 30-minute slots on Wednesday 18 November (date 2026-11-18). Morning: 9am, 9:30am, 10am, 10:30am, 11am, 11:30am. Afternoon: 12pm, 12:30pm, 1pm, 1:30pm, 2pm, 2:30pm, 3pm, 3:30pm, 4pm, 4:30pm."
+    },
+    {
+      "step": "tool book_appointment",
+      "arguments": {
+        "name": "Anna Silver",
+        "phone": "07700 900123",
+        "date": "2026-11-18",
+        "time": "09:00",
+        "reason": "Check-up (new patient)"
+      },
+      "http": 200,
+      "answer": "Booked. Anna Silver, Check-up (new patient), Wednesday 18 November at 9am. Reference 4D25DE. Confirm this back to the caller."
+    },
+    {
+      "step": "tool book_appointment",
+      "arguments": {
+        "name": "Ben Ortiz",
+        "phone": "07700 900456",
+        "date": "2026-11-18",
+        "time": "09:00",
+        "reason": "Check-up"
+      },
+      "http": 200,
+      "answer": "Wednesday 18 November at 9am is not available. Check availability again and offer another time."
+    },
+    {
+      "step": "tool capture_lead",
+      "arguments": {
+        "name": "Ben Ortiz",
+        "phone": "07700 900456",
+        "interest": "Teeth whitening",
+        "consent_to_contact": false
+      },
+      "http": 200,
+      "answer": "Ask the caller whether the team may contact them about this, and only save the details if they say yes."
+    },
+    {
+      "step": "tool capture_lead",
+      "arguments": {
+        "name": "Ben Ortiz",
+        "phone": "07700 900456",
+        "interest": "Teeth whitening",
+        "consent_to_contact": true
+      },
+      "http": 200,
+      "answer": "Saved. The team will contact Ben Ortiz about Teeth whitening. Tell the caller that."
+    },
+    {
+      "step": "tool handover",
+      "arguments": {
+        "caller_name": "Ben Ortiz",
+        "callback_number": "07700 900456",
+        "reason": "Broken tooth, in pain",
+        "urgent": true
+      },
+      "http": 200,
+      "answer": "I'm an AI assistant, so I'm handing you over to a person on the team. The team has been alerted and will call Ben Ortiz back on 07700 900456 within 15 minutes. Tell the caller exactly that."
+    },
+    {
+      "step": "webhook signed with the real secret",
+      "http": 200,
+      "answer": {
+        "status": "received"
+      }
+    },
+    {
+      "step": "same webhook again (an ElevenLabs retry)",
+      "http": 200,
+      "answer": {
+        "status": "duplicate"
+      }
+    },
+    {
+      "step": "webhook signed with a wrong secret (forged)",
+      "http": 401,
+      "answer": {
+        "detail": "Invalid signature"
+      }
+    },
+    {
+      "step": "webhook with a 2-hour-old signature (replay)",
+      "http": 401,
+      "answer": {
+        "detail": "Invalid signature"
+      }
+    },
+    {
+      "step": "cost guard after a 1,200-credit call (budget 1,000)",
+      "http": 200,
+      "answer": {
+        "allowed": false,
+        "reason": "daily credit budget reached (1200 of 1000)",
+        "credits_today": 1200,
+        "calls_today": 1,
+        "daily_credit_budget": 1000
+      }
+    },
+    {
+      "step": "tool check_availability",
+      "arguments": {
+        "date": "2026-11-19"
+      },
+      "http": 200,
+      "answer": "I can't make bookings or changes right now. Offer to take the caller's name and number so the team can call back, and use the handover tool for that."
+    }
+  ],
+  "calls": [
+    {
+      "call_id": "conv_local_1",
+      "agent_id": "agent_demo",
+      "caller": null,
+      "channel": "web",
+      "started_at": "2026-11-17T09:00:00+00:00",
+      "duration_seconds": 22.0,
+      "credits": 1200,
+      "status": "done",
+      "termination_reason": "end_call tool was called.",
+      "call_successful": "success",
+      "analysis_summary": "The caller asked about parking and was told about the free patient car park.",
+      "transcript": "agent: Hi, this is Cimo, an AI assistant for Harbour Dental Clinic. This call is recorded and transcribed so the team can follow up. How can I help today?\nuser: Do you have parking?\nagent: Yes, there's free patient parking behind the building.",
+      "outcome": "Booked Wednesday 18 November at 9am for Anna Silver (Check-up (new patient)); Lead captured: Teeth whitening; Handed over: Broken tooth, in pain",
+      "handover": 1,
+      "summary_emailed": 1,
+      "day": "2026-11-17",
+      "updated_utc": "2026-11-18T07:15:13.665571+00:00",
+      "tool_events": [
+        {
+          "tool": "check_availability",
+          "arguments": "{\"date\": \"2026-11-18\"}",
+          "result": "Today is Tuesday 17 November 2026. Free 30-minute slots on Wednesday 18 November (date 2026-11-18). Morning: 9am, 9:30am, 10am, 10:30am, 11am, 11:30am. Afternoon: 12pm, 12:30pm, 1pm, 1:30pm, 2pm, 2:30pm, 3pm, 3:30pm, 4pm, 4:30pm.",
+          "at_utc": "2026-11-18T07:15:13.654475+00:00"
+        },
+        {
+          "tool": "book_appointment",
+          "arguments": "{\"name\": \"Anna Silver\", \"phone\": \"07700 900123\", \"date\": \"2026-11-18\", \"time\": \"09:00\", \"reason\": \"Check-up (new patient)\"}",
+          "result": "Booked. Anna Silver, Check-up (new patient), Wednesday 18 November at 9am. Reference 4D25DE. Confirm this back to the caller.",
+          "at_utc": "2026-11-18T07:15:13.657188+00:00"
+        },
+        {
+          "tool": "book_appointment",
+          "arguments": "{\"name\": \"Ben Ortiz\", \"phone\": \"07700 900456\", \"date\": \"2026-11-18\", \"time\": \"09:00\", \"reason\": \"Check-up\"}",
+          "result": "Wednesday 18 November at 9am is not available. Check availability again and offer another time.",
+          "at_utc": "2026-11-18T07:15:13.658617+00:00"
+        },
+        {
+          "tool": "capture_lead",
+          "arguments": "{\"name\": \"Ben Ortiz\", \"phone\": \"07700 900456\", \"interest\": \"Teeth whitening\", \"consent_to_contact\": false}",
+          "result": "Ask the caller whether the team may contact them about this, and only save the details if they say yes.",
+          "at_utc": "2026-11-18T07:15:13.659947+00:00"
+        },
+        {
+          "tool": "capture_lead",
+          "arguments": "{\"name\": \"Ben Ortiz\", \"phone\": \"07700 900456\", \"interest\": \"Teeth whitening\", \"consent_to_contact\": true}",
+          "result": "Saved. The team will contact Ben Ortiz about Teeth whitening. Tell the caller that.",
+          "at_utc": "2026-11-18T07:15:13.661714+00:00"
+        },
+        {
+          "tool": "handover",
+          "arguments": "{\"caller_name\": \"Ben Ortiz\", \"callback_number\": \"07700 900456\", \"reason\": \"Broken tooth, in pain\", \"urgent\": true}",
+          "result": "I'm an AI assistant, so I'm handing you over to a person on the team. The team has been alerted and will call Ben Ortiz back on 07700 900456 within 15 minutes. Tell the caller exactly that.",
+          "at_utc": "2026-11-18T07:15:13.663084+00:00"
+        },
+        {
+          "tool": "check_availability",
+          "arguments": "{\"date\": \"2026-11-19\"}",
+          "result": "I can't make bookings or changes right now. Offer to take the caller's name and number so the team can call back, and use the handover tool for that.",
+          "at_utc": "2026-11-18T07:15:13.671685+00:00"
+        }
+      ]
+    }
+  ],
+  "leads": [
+    {
+      "id": 1,
+      "call_id": "conv_local_1",
+      "name": "Ben Ortiz",
+      "phone": "07700 900456",
+      "email": "",
+      "interest": "Teeth whitening",
+      "consent_to_contact": 1,
+      "at_utc": "2026-11-18T07:15:13.661104+00:00"
+    }
+  ],
+  "team_emails": [
+    {
+      "at": "2026-11-18T07:15:13.661427+00:00",
+      "subject": "New lead: Ben Ortiz",
+      "body": "New lead from the Harbour Dental Clinic voice agent\n\nName: Ben Ortiz\nPhone: 07700 900456\nEmail: not given\nInterested in: Teeth whitening\nConsent to contact: yes\nCall id: conv_local_1\n"
+    },
+    {
+      "at": "2026-11-18T07:15:13.662808+00:00",
+      "subject": "URGENT Handover: call back Ben Ortiz",
+      "body": "A caller asked to speak to a person.\n\nCaller: Ben Ortiz\nCall back on: 07700 900456\nUrgent: YES\nReason: Broken tooth, in pain\nCall id: conv_local_1\n"
+    },
+    {
+      "at": "2026-11-18T07:15:13.665547+00:00",
+      "subject": "Call summary: web call",
+      "body": "Call summary from the Harbour Dental Clinic voice agent (ElevenLabs)\n\nCaller: web call\nConversation: conv_local_1\nLength: 22 s, credits: 1200\nEnded: end_call tool was called.\nResult: success\n\nWhat happened:\nThe caller asked about parking and was told about the free patient car park.\n\nActions taken: Booked Wednesday 18 November at 9am for Anna Silver (Check-up (new patient)); Lead captured: Teeth whitening; Handed over: Broken tooth, in pain\n"
+    }
+  ],
+  "alerts": [
+    {
+      "subject": "Voice agent cost guard tripped",
+      "detail": "The voice agent stopped acting on calls: daily credit budget reached (1200 of 1000). Calls today: 1. Raise DAILY_CREDIT_BUDGET / DAILY_CALL_LIMIT or wait for tomorrow."
+    }
+  ]
+}

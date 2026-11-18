@@ -27,5 +27,7 @@ jobs:
         run: ruff check .
       - name: Tests (ElevenLabs and the calendar are faked, no keys needed)
         run: pytest -v
+      - name: Offline acceptance run (tools, signed webhooks, cost guard; no account)
+        run: python scripts/local_run.py
       - name: Dependency audit
         run: pip-audit -r requirements.lock
