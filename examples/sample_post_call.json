@@ -1,0 +1,16 @@
+{
+  "type": "post_call_transcription",
+  "event_timestamp": 1763380000,
+  "data": {
+    "agent_id": "agent_demo",
+    "conversation_id": "conv_demo_001",
+    "status": "done",
+    "transcript": [
+      {"role": "agent", "message": "Hi, this is Cimo, an AI assistant for Harbour Dental Clinic. This call is recorded and transcribed so the team can follow up. How can I help today?", "tool_calls": null, "tool_results": null, "time_in_call_secs": 0},
+      {"role": "user", "message": "Do you have parking?", "tool_calls": null, "tool_results": null, "time_in_call_secs": 6},
+      {"role": "agent", "message": "Yes, there's free patient parking behind the building.", "tool_calls": null, "tool_results": null, "time_in_call_secs": 8}
+    ],
+    "metadata": {"start_time_unix_secs": 1763380000, "call_duration_secs": 22, "cost": 180, "termination_reason": "end_call tool was called."},
+    "analysis": {"call_successful": "success", "transcript_summary": "The caller asked about parking and was told about the free patient car park."}
+  }
+}

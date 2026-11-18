@@ -1,0 +1,5 @@
+# Runtime dependencies, pinned exactly (Vibe Coding Playbook rule B15). Update on purpose, then re-run tests and pip-audit.
+fastapi==0.163.1
+uvicorn==0.54.0
+httpx==0.28.1
+websockets==17.4  # only scripts/live_call.py uses it

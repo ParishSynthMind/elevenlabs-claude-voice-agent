@@ -1,0 +1,11 @@
+{
+  "name": "Harbour Dental Clinic",
+  "description": "How the agent and the narration say the clinic's names and terms (alias rules, which ElevenLabs recommends for models without phoneme support).",
+  "rules": [
+    {"string_to_replace": "Cimo", "type": "alias", "alias": "Chee-mo"},
+    {"string_to_replace": "Invisalign", "type": "alias", "alias": "in-vizz-a-line"},
+    {"string_to_replace": "HDC", "type": "alias", "alias": "Harbour Dental Clinic"},
+    {"string_to_replace": "periodontist", "type": "alias", "alias": "perry-oh-don-tist", "case_sensitive": false},
+    {"string_to_replace": "Quay", "type": "alias", "alias": "key"}
+  ]
+}

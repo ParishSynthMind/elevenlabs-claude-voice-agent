@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elevenlabs-claude-voice-agent"
+version = "0.1.0"
+description = "ElevenLabs Agents voice agent with Claude: knowledge base, server tools (book a slot, capture a lead, hand over), signed post-call webhooks, AI disclosure, cost guard, plus a credit-safe narration script with a pronunciation dictionary."
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+  "fastapi==0.163.1",
+  "uvicorn==0.54.0",
+  "httpx==0.28.1",
+  "websockets==17.4",
+]
+
+[tool.setuptools]
+packages = ["voiceagent", "voiceagent.calendar"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+timeout = 60
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501"]
